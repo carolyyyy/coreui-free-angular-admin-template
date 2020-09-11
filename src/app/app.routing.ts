@@ -51,6 +51,18 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: 'home',
+        loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'budget',
+        loadChildren: () => import('./views/budget/budget.module').then(m => m.BudgetModule)
+      },
+      {
+        path: 'chart',
+        loadChildren: () => import('./views/charts/charts.module').then(m => m.ChartModule)
+      },
+      {
         path: 'base',
         loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
       },

@@ -12,6 +12,25 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
+    name: 'Personal Finance Manager'
+  },
+  {
+    name: 'Home',
+    url: '/home',
+    icon: 'icon-pencil'
+  },
+  {
+    name: 'Budget',
+    url: '/budgets',
+    icon: 'icon-star'
+  },
+  {
+    name: 'Charts',
+    url: '/charts',
+    icon: 'icon-pie-chart'
+  },
+  {
+    title: true,
     name: 'Theme'
   },
   {
