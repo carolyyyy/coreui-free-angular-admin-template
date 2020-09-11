@@ -21,12 +21,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Budget',
-    url: '/budgets',
+    url: '/budget',
     icon: 'icon-star'
   },
   {
-    name: 'Charts',
-    url: '/charts',
+    name: 'Chart',
+    url: '/chart',
     icon: 'icon-pie-chart'
   },
   {
