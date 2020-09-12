@@ -1,0 +1,88 @@
+<div class="animated fadeIn">
+    
+    <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-5">
+              
+            </div><!--/.col-->
+            <div class="col-sm-7 d-none d-md-block">
+              
+            </div><!--/.col-->
+            <div class="form-group col-sm-4">
+                <label for="ccmonth">Month</label>
+                <select class="form-control" id="ccmonth" [(ngModel)]="month">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>12</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="ccyear">Year</label>
+                <select class="form-control" id="ccyear" [(ngModel)]="year">
+                  <option>2014</option>
+                  <option>2015</option>
+                  <option>2016</option>
+                  <option>2017</option>
+                  <option>2018</option>
+                  <option>2019</option>
+                  <option>2020</option>
+                  <option>2021</option>
+                  <option>2022</option>
+                  <option>2023</option>
+                  <option>2024</option>
+                  <option>2025</option>
+                </select>
+              </div>
+          </div><!--/.row-->
+
+          <accordion>
+            <div *ngFor="let catogory of catogories">
+            <accordion-group [isOpen]="true">
+              <button class="btn btn-link btn-block clearfix" accordion-heading type="button">
+                <div class="pull-left float-left">{{catogory.name}}</div>
+                <span class="float-right pull-right">{{catogory.money}}</span>
+              </button>
+              <div class="col-lg-12">
+              <div class="row">
+                
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Note</th>
+                      <th>Money</th>
+                      <th>Date</th>
+                      <th>Operations</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let record of catogory.records">
+                    <tr>
+                      <td>{{record.name}}</td>
+                      <td>{{record.money}}</td>
+                      <td>{{record.date}}</td>
+                      <td>
+                        <span class="badge badge-success">Active</span>
+                      </td>
+                    </tr>
+                   
+                  </tbody>
+                      </table>            
+                <!--/.col-->
+              </div>
+            </div>
+            </accordion-group>
+          </div>
+          </accordion>
+        
+        </div>
+        </div>
+</div>
