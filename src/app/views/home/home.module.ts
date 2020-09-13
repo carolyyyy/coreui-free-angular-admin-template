@@ -9,6 +9,9 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
+import {AppBreadcrumbModule} from '@coreui/angular';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
@@ -18,8 +21,10 @@ import { HomeRoutingModule } from './home-routing.module';
     ChartsModule,
     BsDropdownModule,
     ButtonsModule.forRoot(),
-
-    AccordionModule.forRoot()
+    AppBreadcrumbModule.forRoot(),
+    ModalModule.forRoot(),
+    AccordionModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   declarations: [ HomeComponent ]
 })

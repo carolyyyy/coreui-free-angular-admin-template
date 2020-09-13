@@ -9,7 +9,7 @@
             <div class="col-sm-7 d-none d-md-block">
               
             </div><!--/.col-->
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
                 <label for="ccmonth">Month</label>
                 <select class="form-control" id="ccmonth" [(ngModel)]="month">
                   <option>1</option>
@@ -26,7 +26,7 @@
                   <option>12</option>
                 </select>
               </div>
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-3">
                 <label for="ccyear">Year</label>
                 <select class="form-control" id="ccyear" [(ngModel)]="year">
                   <option>2014</option>
@@ -43,14 +43,183 @@
                   <option>2025</option>
                 </select>
               </div>
+
+              <div class="right">
+                <div class="row">
+                  <div class="form-group col-sm-6">
+                
+                <button type="button" class="btn btn-block btn-primary" (click)="openModalWithAddRecord(template_addRecord)">Add Record</button>
+                <ng-template #template_addRecord>
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left">Add Record</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                      
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="text-input">Note</label>
+                        <div class="col-md-9">
+                          <input type="text" id="text-input" name="addNote-input" class="form-control" [(ngModel)]="addNote" required>
+                          
+                        </div>
+                      </div>
+                      
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="text-input">Money</label>
+                        <div class="col-md-9">
+                          <input type="text" id="text-input" name="addMoney-input" class="form-control" [(ngModel)]="addMoney" required>
+                          
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="date-input">Date</label>
+                        <div class="col-md-9">
+                          
+                          <input type="text"
+                          class="form-control"
+                          bsDatepicker
+                          #dp="bsDatepicker" 
+                          [bsValue]="addDate">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                        <div class="col-md-9">
+                          <select id="select1" name="select1" class="form-control" [(ngModel)]="addCatogory">
+                            <option *ngFor="let catogory of catogories">{{catogory.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary" (click)="addRecord()"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                  </div>
+                </ng-template>
+              </div>
+              <div class="form-group col-sm-3">
+                  <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                      Catogory Actions <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithAddCatogory(template_addCatogory)">Add Catogory</button></li>
+                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithEditCatogory(template_editCatogory)">Edit Catogory</button></li>
+                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithDeleteCatogory(template_deleteCatogory)">Delete Catogory</button></li>
+                      
+                    </ul>
+                  </div>
+                </div>
+
+                <ng-template #template_addCatogory>
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left">Add Catogory</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                      
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="text-input">Name</label>
+                        <div class="col-md-9">
+                          <input type="text" id="text-input" name="text-input" class="form-control" [(ngModel)]="addCatogoryName" required>
+                          
+                        </div>
+                      </div>
+                   
+                    </form>
+                  </div>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                   
+                  </div>
+                </ng-template>
+
+                <ng-template #template_editCatogory>
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left">Edit Catogory</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                        <div class="col-md-9">
+                          <select id="select1" name="select1" class="form-control" [(ngModel)]="editCatogorySelectName">
+                            <option>Utilities</option>
+                            <option>Travel</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="text-input">Edit Name</label>
+                        <div class="col-md-9">
+                          <input type="text" id="text-input" name="text-input" class="form-control" [(ngModel)]="editCatogoryName" required>
+                          
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                   
+                  </div>
+                </ng-template>
+
+                <ng-template #template_deleteCatogory>
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left">Delete Catogory</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                        <div class="col-md-9">
+                          <select id="select1" name="select1" class="form-control" [(ngModel)]="deleteCatogoryName">
+                            <option>Utilities</option>
+                            <option>Travel</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                    
+                  </div>
+                </ng-template>
+
+              </div>
+            
+            </div>
+
           </div><!--/.row-->
 
           <accordion>
             <div *ngFor="let catogory of catogories">
             <accordion-group [isOpen]="true">
               <button class="btn btn-link btn-block clearfix" accordion-heading type="button">
-                <div class="pull-left float-left">{{catogory.name}}</div>
-                <span class="float-right pull-right">{{catogory.money}}</span>
+                
+                <div class="pull-left float-left"><h5>{{catogory.name}}</h5></div>
+                <span class="pull-right float-right">{{catogory.money}}</span>
               </button>
               <div class="col-lg-12">
               <div class="row">
@@ -61,16 +230,88 @@
                       <th>Note</th>
                       <th>Money</th>
                       <th>Date</th>
-                      <th>Operations</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody *ngFor="let record of catogory.records">
                     <tr>
-                      <td>{{record.name}}</td>
+                      <td>{{record.note}}</td>
                       <td>{{record.money}}</td>
-                      <td>{{record.date}}</td>
+                      <td>{{record.date.getFullYear()}}/{{record.date.getMonth()+1}}/{{record.date.getDate()}}</td>
                       <td>
-                        <span class="badge badge-success">Active</span>
+                        <div class="row">
+                        <div class="col-lg-3">
+                        <button type="button" class="btn btn-block btn-primary" (click)="openModalWithEditRecord(template_editRecord,record.note,record.money,record.date,catogory.name)">Edit</button>
+                      </div>
+                      <div class="col-lg-3">
+                        <button type="button" class="btn btn-block btn-danger" (click)="openModalWithDeleteRecord(template_deleteRecord)">Delete</button>
+                      </div>
+
+                      <ng-template #template_editRecord>
+                        <div class="modal-header">
+                          <h4 class="modal-title pull-left">Edit Record</h4>
+                          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            
+                            <div class="form-group row">
+                              <label class="col-md-3 col-form-label" for="text-input">Note</label>
+                              <div class="col-md-9">
+                                
+                                <input type="text" id="text-input" name="note-input" class="form-control" [(ngModel)]="editRecordNote" required>
+                                
+                              </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                              <label class="col-md-3 col-form-label" for="text-input">Money</label>
+                              <div class="col-md-9">
+                                <input type="text" id="text-input" name="money-input" class="form-control" [(ngModel)]="editRecordMoney" required>
+                                
+                              </div>
+                            </div>
+      
+                            <div class="form-group row">
+                              <label class="col-md-3 col-form-label" for="date-input">Date</label>
+                              <div class="col-md-9">
+                                
+                                <input type="text"
+                                class="form-control"
+                                bsDatepicker
+                                #dp="bsDatepicker" 
+                                [bsValue]="editRecordDate">
+                              </div>
+                            </div>
+      
+                            <div class="form-group row">
+                              <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                              <div class="col-md-9">
+                                <select id="select1" name="select1" class="form-control" [(ngModel)]="editRecordCatogory">
+                                  <option>Utilities</option>
+                                  <option>Travel</option>
+                                </select>
+                              </div>
+                            </div>
+      
+                          </form>
+                        </div>
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        </div>
+                      </ng-template>
+
+                      <ng-template #template_deleteRecord>
+                        <div class="modal-body text-center">
+                          <p>Do you confirm to delete the record?</p>
+                          <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+                          <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+                        </div>
+                      </ng-template>
+
+                    </div>
                       </td>
                     </tr>
                    
@@ -82,7 +323,7 @@
             </accordion-group>
           </div>
           </accordion>
-        
+          
         </div>
         </div>
 </div>
