@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-
+import {HttpClientModule} from '@angular/common/http';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { HomeComponent } from './home.component';
@@ -20,6 +20,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     HomeRoutingModule,
     ChartsModule,
     BsDropdownModule,
+    HttpClientModule,
     ButtonsModule.forRoot(),
     AppBreadcrumbModule.forRoot(),
     ModalModule.forRoot(),

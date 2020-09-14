@@ -1,18 +1,38 @@
 import { SelectorMatcher } from '@angular/compiler';
-import { Component, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Category} from './Category';
+import {ServiceService} from './service.service';
 
 @Component({
   selector: 'demo-accordion-opened',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
   modalRef: BsModalRef;
-  constructor(private modalService: BsModalService) {
+  constructor(private modalService: BsModalService, private service: ServiceService, private httpClient: HttpClient) {
 
   }
+
+  categories: Category[] = [];
+
+  ngOnInit() {
+   
+    //console.log(this.results);
+  }
+
+  findCategoryList(): void {
+    this.service.getCatList().subscribe((data) => {
+      this.categories = data;
+      console.log(data);
+      console.log(this.categories);
+    });
+    
+  }
+
 
   isCollapsed: boolean = false;
   iconCollapse: string = 'icon-arrow-up';
@@ -80,13 +100,13 @@ export class HomeComponent {
     }
   ]
 
-  categories = [{
-    id: 1,
-    name: 'Utilities'
-  },{
-    id: 2,
-    name: 'Travel'
-  }]
+  // categories = [{
+  //   id: 1,
+  //   name: 'Utilities'
+  // },{
+  //   id: 2,
+  //   name: 'Travel'
+  // }]
 
   change(){
     console.log(this.addOutcome);
@@ -214,11 +234,14 @@ export class HomeComponent {
           return;
         }
       }
+      var name = this.addCatogoryName;
       //call addCategory getAllCats
-      this.categories.push({
-        id: this.categories[this.categories.length-1].id+1,
-        name: this.addCatogoryName
-      })
+      this.service.addCategory({name} as Category).subscribe();
+      this.findCategoryList();
+      // this.categories.push({
+      //   id: this.categories[this.categories.length-1].id+1,
+      //   name: this.addCatogoryName
+      // })
       this.modalRef.hide();
       this.addCatogoryName = null;
     }
