@@ -10,38 +10,9 @@
               
             </div><!--/.col-->
             <div class="form-group col-sm-3">
-                <label for="ccmonth">Month</label>
-                <select class="form-control" id="ccmonth" [(ngModel)]="month">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
-                </select>
-              </div>
-              <div class="form-group col-sm-3">
-                <label for="ccyear">Year</label>
-                <select class="form-control" id="ccyear" [(ngModel)]="year">
-                  <option>2014</option>
-                  <option>2015</option>
-                  <option>2016</option>
-                  <option>2017</option>
-                  <option>2018</option>
-                  <option>2019</option>
-                  <option>2020</option>
-                  <option>2021</option>
-                  <option>2022</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                  <option>2025</option>
-                </select>
+              <label for="ccmonth">Date Range Picker</label>
+              <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue">
+                
               </div>
 
               <div class="right">
@@ -52,7 +23,7 @@
                 <ng-template #template_addRecord>
                   <div class="modal-header">
                     <h4 class="modal-title pull-left">Add Record</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="addRecordClose()">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -63,7 +34,7 @@
                         <label class="col-md-3 col-form-label" for="text-input">Note</label>
                         <div class="col-md-9">
                           <input type="text" id="text-input" name="addNote-input" class="form-control" [(ngModel)]="addNote" required>
-                          
+                          <span class="text-muted">Note can not be empty</span>
                         </div>
                       </div>
                       
@@ -71,7 +42,18 @@
                         <label class="col-md-3 col-form-label" for="text-input">Money</label>
                         <div class="col-md-9">
                           <input type="text" id="text-input" name="addMoney-input" class="form-control" [(ngModel)]="addMoney" required>
-                          
+                          <span class="text-muted">Money can not be empty and must be a valid number</span>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="select1">Outcome/Income</label>
+                        <div class="col-md-9">
+                          <select id="select1" name="select1" class="form-control" [(ngModel)]="addOutcome">
+                            <option>Outcome</option>
+                            <option>Income</option>
+                          </select>
+                          <span class="text-muted">Record must have a type of outcome or income</span>
                         </div>
                       </div>
 
@@ -88,11 +70,12 @@
                       </div>
 
                       <div class="form-group row">
-                        <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                        <label class="col-md-3 col-form-label" for="select1">Category</label>
                         <div class="col-md-9">
                           <select id="select1" name="select1" class="form-control" [(ngModel)]="addCatogory">
-                            <option *ngFor="let catogory of catogories">{{catogory.name}}</option>
+                            <option *ngFor="let catogory of categories">{{catogory.name}}</option>
                           </select>
+                          <span class="text-muted">Category can not be empty</span>
                         </div>
                       </div>
 
@@ -106,12 +89,12 @@
               <div class="form-group col-sm-3">
                   <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-                      Catogory Actions <span class="caret"></span>
+                      Category Actions <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithAddCatogory(template_addCatogory)">Add Catogory</button></li>
-                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithEditCatogory(template_editCatogory)">Edit Catogory</button></li>
-                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithDeleteCatogory(template_deleteCatogory)">Delete Catogory</button></li>
+                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithAddCatogory(template_addCatogory)">Add Category</button></li>
+                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithEditCatogory(template_editCatogory)">Edit Category</button></li>
+                      <li role="menuitem"><button type="button" class="btn btn-block btn-link" (click)="openModalWithDeleteCatogory(template_deleteCatogory)">Delete Category</button></li>
                       
                     </ul>
                   </div>
@@ -119,8 +102,8 @@
 
                 <ng-template #template_addCatogory>
                   <div class="modal-header">
-                    <h4 class="modal-title pull-left">Add Catogory</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <h4 class="modal-title pull-left">Add Category</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="addCatogoryFunctionClose()">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -131,22 +114,22 @@
                         <label class="col-md-3 col-form-label" for="text-input">Name</label>
                         <div class="col-md-9">
                           <input type="text" id="text-input" name="text-input" class="form-control" [(ngModel)]="addCatogoryName" required>
-                          
+                          <span class="text-muted">Category name can not be empty or repeated</span>
                         </div>
                       </div>
                    
                     </form>
                   </div>
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                    <button type="submit" class="btn btn-sm btn-primary" (click)="addCatogoryFunction()"><i class="fa fa-dot-circle-o"></i> Submit</button>
                    
                   </div>
                 </ng-template>
 
                 <ng-template #template_editCatogory>
                   <div class="modal-header">
-                    <h4 class="modal-title pull-left">Edit Catogory</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <h4 class="modal-title pull-left">Edit Category</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="editCategoryFunctionClose()">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -154,12 +137,12 @@
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 
                       <div class="form-group row">
-                        <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                        <label class="col-md-3 col-form-label" for="select1">Category</label>
                         <div class="col-md-9">
                           <select id="select1" name="select1" class="form-control" [(ngModel)]="editCatogorySelectName">
-                            <option>Utilities</option>
-                            <option>Travel</option>
+                            <option *ngFor="let catogory of categories">{{catogory.name}}</option>
                           </select>
+                          <span class="text-muted">Select the catelog which is being to edited</span>
                         </div>
                       </div>
 
@@ -167,22 +150,22 @@
                         <label class="col-md-3 col-form-label" for="text-input">Edit Name</label>
                         <div class="col-md-9">
                           <input type="text" id="text-input" name="text-input" class="form-control" [(ngModel)]="editCatogoryName" required>
-                          
+                          <span class="text-muted">Category name can not be empty or repeated</span>
                         </div>
                       </div>
 
                     </form>
                   </div>
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                    <button type="submit" class="btn btn-sm btn-primary" (click)="editCategoryFunction()"><i class="fa fa-dot-circle-o"></i> Submit</button>
                    
                   </div>
                 </ng-template>
 
                 <ng-template #template_deleteCatogory>
                   <div class="modal-header">
-                    <h4 class="modal-title pull-left">Delete Catogory</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <h4 class="modal-title pull-left">Delete Category</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="deleteCategoryFunctionClose()">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -190,19 +173,19 @@
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 
                       <div class="form-group row">
-                        <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                        <label class="col-md-3 col-form-label" for="select1">Category</label>
                         <div class="col-md-9">
                           <select id="select1" name="select1" class="form-control" [(ngModel)]="deleteCatogoryName">
-                            <option>Utilities</option>
-                            <option>Travel</option>
+                            <option *ngFor="let catogory of categories">{{catogory.name}}</option>
                           </select>
+                          <code class="highlighter-rouge">Notice: deleting a category will delete all records of the category.</code>
                         </div>
                       </div>
 
                     </form>
                   </div>
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                    <button type="submit" class="btn btn-sm btn-primary" (click)="deleteCategoryFunction()"><i class="fa fa-dot-circle-o"></i> Submit</button>
                     
                   </div>
                 </ng-template>
@@ -229,6 +212,7 @@
                     <tr>
                       <th>Note</th>
                       <th>Money</th>
+                      <th>Outcome/Income</th>
                       <th>Date</th>
                       <th>Actions</th>
                     </tr>
@@ -237,20 +221,22 @@
                     <tr>
                       <td>{{record.note}}</td>
                       <td>{{record.money}}</td>
+                      <td *ngIf="record.isOutcome==true"><span class="badge badge-secondary">outcome</span></td>
+                      <td *ngIf="record.isOutcome==false"><span class="badge badge-success">income</span></td>
                       <td>{{record.date.getFullYear()}}/{{record.date.getMonth()+1}}/{{record.date.getDate()}}</td>
                       <td>
                         <div class="row">
-                        <div class="col-lg-3">
-                        <button type="button" class="btn btn-block btn-primary" (click)="openModalWithEditRecord(template_editRecord,record.note,record.money,record.date,catogory.name)">Edit</button>
+                        <div class="col-lg-4">
+                        <button type="button" class="btn btn-block btn-primary" (click)="openModalWithEditRecord(template_editRecord,record.note,record.money,record.isOutcome,record.date,catogory.name)">Edit</button>
                       </div>
-                      <div class="col-lg-3">
-                        <button type="button" class="btn btn-block btn-danger" (click)="openModalWithDeleteRecord(template_deleteRecord)">Delete</button>
+                      <div class="col-lg-4">
+                        <button type="button" class="btn btn-block btn-danger" (click)="openModalWithDeleteRecord(template_deleteRecord,record.note,record.money,record.isOutcome,record.date,catogory.name)">Delete</button>
                       </div>
 
                       <ng-template #template_editRecord>
                         <div class="modal-header">
                           <h4 class="modal-title pull-left">Edit Record</h4>
-                          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                          <button type="button" class="close pull-right" aria-label="Close" (click)="editRecordFunctionClose()">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
@@ -262,7 +248,7 @@
                               <div class="col-md-9">
                                 
                                 <input type="text" id="text-input" name="note-input" class="form-control" [(ngModel)]="editRecordNote" required>
-                                
+                                <span class="text-muted">Note can not be empty</span>
                               </div>
                             </div>
                             
@@ -270,7 +256,18 @@
                               <label class="col-md-3 col-form-label" for="text-input">Money</label>
                               <div class="col-md-9">
                                 <input type="text" id="text-input" name="money-input" class="form-control" [(ngModel)]="editRecordMoney" required>
-                                
+                                <span class="text-muted">Money can not be empty and must be a valid number</span>
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <label class="col-md-3 col-form-label" for="select1">Outcome/Income</label>
+                              <div class="col-md-9">
+                                <select id="select1" name="select" class="form-control" [(ngModel)]="editRecordOutcome">
+                                  <option>Outcome</option>
+                                  <option>Income</option>
+                                </select>
+                                <span class="text-muted">Record must have a type of outcome or income</span>
                               </div>
                             </div>
       
@@ -287,11 +284,10 @@
                             </div>
       
                             <div class="form-group row">
-                              <label class="col-md-3 col-form-label" for="select1">Catogory</label>
+                              <label class="col-md-3 col-form-label" for="select1">Category</label>
                               <div class="col-md-9">
                                 <select id="select1" name="select1" class="form-control" [(ngModel)]="editRecordCatogory">
-                                  <option>Utilities</option>
-                                  <option>Travel</option>
+                                  <option *ngFor="let catogory of categories">{{catogory.name}}</option>
                                 </select>
                               </div>
                             </div>
@@ -299,14 +295,14 @@
                           </form>
                         </div>
                         <div class="card-footer">
-                          <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                          <button type="submit" class="btn btn-sm btn-primary" (click)="editRecordFunction(record.note,record.money,record.isOutcome,record.date,catogory.name)"><i class="fa fa-dot-circle-o"></i> Submit</button>
                         </div>
                       </ng-template>
 
                       <ng-template #template_deleteRecord>
                         <div class="modal-body text-center">
                           <p>Do you confirm to delete the record?</p>
-                          <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+                          <button type="button" class="btn btn-default" (click)="confirm(record.note,record.money,record.isOutcome,record.date,catogory.name)" >Yes</button>
                           <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
                         </div>
                       </ng-template>
