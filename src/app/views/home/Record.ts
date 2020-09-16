@@ -3,7 +3,7 @@ export class Record {
     categoryId: number;
     note: string;
     money: number;
-    date: Date;
+    date: string;
     outcome: boolean;
    
   }

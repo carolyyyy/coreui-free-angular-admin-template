@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {logger} from 'codelyzer/util/logger';
 import {Record} from './Record';
+import {HomeList} from './HomeList';
 import {Category} from './Category';
 import {log} from 'util';
 import {catchError} from 'rxjs/operators';
@@ -25,6 +26,10 @@ export class ServiceService {
     return this.httpClient.get<Category[]>(this.serviceUrl + '/category');
   }
 
+  getRecordList(start: string, end: string): Observable<HomeList[]> {
+    return this.httpClient.get<HomeList[]>(this.serviceUrl + '/record/getCategoryDetail?start=' + start + '&end=' + end);
+  }
+
   // 获取单个数据
   // getmyList(start: Date, end: Date): Observable<myList[]> {
   //   const params = new HttpParams({
@@ -43,24 +48,36 @@ export class ServiceService {
     return this.httpClient.post<Category>(this.serviceUrl + '/category', cat, httpOptions)
       .pipe(catchError(this.handleError<Category>('addCategory')));
   }
+
+  addRecord(record: Record, start: string, end: string): Observable<HomeList[]> {
+    // const params = new HttpParams({fromString:"record=" + record +"&start=" + start + "&end=" + end});//方式二：使用 fromString
+    return this.httpClient.post<HomeList[]>(this.serviceUrl + '/record?start='+start+"&end="+end, record, httpOptions)
+      .pipe(catchError(this.handleError<HomeList[]>('addRecord')));
+  }
  
-  // // 删除一个用户
-  // deleteCategory(user: number): Observable<UserInfo> {
-  //   const id = typeof user === 'number' ? user : user.id;
-  //   const url = `${this.serviceUrl}/${id}`;
-  //   const delhttpOptions = {
-  //     headers: new HttpHeaders({'content-Type': 'application/json'}),
-  //     body: user
-  //   };
-  //   return this.httpClient.delete<UserInfo>(url, delhttpOptions)
-  //     .pipe(catchError(this.handleError<UserInfo>('deleteUser')));
-  // }
+  // 删除一个用户
+  deleteCategory(id: number): Observable<Category[]> {
+    
+    return this.httpClient.delete<Category[]>(this.serviceUrl + '/category/'+id)
+      .pipe(catchError(this.handleError<Category[]>('deleteCategory')));
+  }
+
+  deleteRecord(id: number,start: string, end: string): Observable<HomeList[]> {
+    
+    return this.httpClient.delete<HomeList[]>(this.serviceUrl + '/record/'+id+'?start='+start+'&end='+end)
+      .pipe(catchError(this.handleError<HomeList[]>('deleteRecord')));
+  }
  
-  // // 更新数据
-  // updateUser(user: UserInfo): Observable<any> {
-  //   return this.httpClient.put(this.serviceUrl + '/update', user, httpOptions)
-  //     .pipe(catchError(this.handleError('updateUser id=' + user.id)));
-  // }
+  // 更新数据
+  updateCategory(id: number, name: string): Observable<any> {
+    return this.httpClient.put(this.serviceUrl + '/category/'+id +'?name='+name,httpOptions)
+      .pipe(catchError(this.handleError('updateCat id=' + id)));
+  }
+
+  updateRecord(id: number, record: Record, start: string, end: string): Observable<any> {
+    return this.httpClient.put(this.serviceUrl + '/record/'+id +'?start='+start+"&end="+end,record,httpOptions)
+      .pipe(catchError(this.handleError('updateRecord id=' + id)));
+  }
  
   /**
    * Handle Http operation that failed.

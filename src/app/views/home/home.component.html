@@ -11,7 +11,7 @@
             </div><!--/.col-->
             <div class="form-group col-sm-3">
               <label for="ccmonth">Date Range Picker</label>
-              <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="bsRangeValue">
+              <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker (bsValueChange)="dateChange($event)" [bsValue]="bsRangeValue">
                 
               </div>
 
@@ -221,16 +221,16 @@
                     <tr>
                       <td>{{record.note}}</td>
                       <td>{{record.money}}</td>
-                      <td *ngIf="record.isOutcome==true"><span class="badge badge-secondary">outcome</span></td>
-                      <td *ngIf="record.isOutcome==false"><span class="badge badge-success">income</span></td>
-                      <td>{{record.date.getFullYear()}}/{{record.date.getMonth()+1}}/{{record.date.getDate()}}</td>
+                      <td *ngIf="record.outcome==true"><span class="badge badge-secondary">outcome</span></td>
+                      <td *ngIf="record.outcome==false"><span class="badge badge-success">income</span></td>
+                      <td>{{record.date}}</td>
                       <td>
                         <div class="row">
                         <div class="col-lg-4">
-                        <button type="button" class="btn btn-block btn-primary" (click)="openModalWithEditRecord(template_editRecord,record.note,record.money,record.isOutcome,record.date,catogory.name)">Edit</button>
+                        <button type="button" class="btn btn-block btn-primary" (click)="openModalWithEditRecord(template_editRecord,record.note,record.money,record.outcome,record.date,catogory.name)">Edit</button>
                       </div>
                       <div class="col-lg-4">
-                        <button type="button" class="btn btn-block btn-danger" (click)="openModalWithDeleteRecord(template_deleteRecord,record.note,record.money,record.isOutcome,record.date,catogory.name)">Delete</button>
+                        <button type="button" class="btn btn-block btn-danger" (click)="openModalWithDeleteRecord(template_deleteRecord,record.note,record.money,record.outcome,record.date,catogory.name)">Delete</button>
                       </div>
 
                       <ng-template #template_editRecord>
@@ -295,14 +295,14 @@
                           </form>
                         </div>
                         <div class="card-footer">
-                          <button type="submit" class="btn btn-sm btn-primary" (click)="editRecordFunction(record.note,record.money,record.isOutcome,record.date,catogory.name)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                          <button type="submit" class="btn btn-sm btn-primary" (click)="editRecordFunction(record.id,catogory.name)"><i class="fa fa-dot-circle-o"></i> Submit</button>
                         </div>
                       </ng-template>
 
                       <ng-template #template_deleteRecord>
                         <div class="modal-body text-center">
                           <p>Do you confirm to delete the record?</p>
-                          <button type="button" class="btn btn-default" (click)="confirm(record.note,record.money,record.isOutcome,record.date,catogory.name)" >Yes</button>
+                          <button type="button" class="btn btn-default" (click)="confirm(record.id)" >Yes</button>
                           <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
                         </div>
                       </ng-template>
