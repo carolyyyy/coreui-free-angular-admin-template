@@ -207,14 +207,13 @@ export class HomeComponent implements OnInit{
               id: null,
               categoryId: catId
             };
-            this.bsRangeValue[0]=this.addDate
-            this.bsRangeValue[1]=this.addDate  
+            
       this.service.addRecord(this.add_record,this.bsRangeValue[0].getFullYear() + '/' + (this.bsRangeValue[0].getMonth()+1) + '/' + this.bsRangeValue[0].getDate(), 
                             this.bsRangeValue[1].getFullYear() + '/' + (this.bsRangeValue[1].getMonth()+1) + '/' + this.bsRangeValue[1].getDate())
                             .subscribe((data) => {
       this.catogories = data;
       console.log(data);
-      console.log(this.categories);
+      console.log(this.catogories);
     });
 
             this.modalRef.hide();
