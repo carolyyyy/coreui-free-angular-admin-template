@@ -17,7 +17,9 @@ const httpOptions = {
 })
 export class ServiceService {
 
-  private serviceUrl = 'http://127.0.0.1:8080';
+  //private serviceUrl = 'http://127.0.0.1:8080';
+  private serviceUrl = 'http://6d4703ac.cpolar.io/';
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,6 +27,7 @@ export class ServiceService {
   getCatList(): Observable<Category[]> {
     return this.httpClient.get<Category[]>(this.serviceUrl + '/category');
   }
+
 
   getRecordList(start: string, end: string): Observable<HomeList[]> {
     return this.httpClient.get<HomeList[]>(this.serviceUrl + '/record/getCategoryDetail?start=' + start + '&end=' + end);

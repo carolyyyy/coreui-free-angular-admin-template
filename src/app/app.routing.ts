@@ -47,16 +47,12 @@ export const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'HomeBudget'
     },
     children: [
       {
         path: 'home',
         loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule)
-      },
-      {
-        path: 'budget',
-        loadChildren: () => import('./views/budget/budget.module').then(m => m.BudgetModule)
       },
       {
         path: 'chart',

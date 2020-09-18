@@ -6,6 +6,7 @@ import {Category} from './Category';
 import {HomeList} from './HomeList';
 import {Record} from './Record';
 import {ServiceService} from './service.service';
+import { TestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'demo-accordion-opened',
@@ -25,6 +26,8 @@ export class HomeComponent implements OnInit{
    this.findCategoryList();
     //console.log(this.results);
     this.dateChange(this.bsRangeValue);
+    
+    
   }
 
   findCategoryList(): void {
@@ -67,56 +70,9 @@ export class HomeComponent implements OnInit{
    editRecordCatogory: string;
 
     catogories: HomeList[] = [];
-  // catogories = [
-  //   {
-  //     name: 'Utilities',
-  //     money: -1010.23,
-  //     records: [
-  //       {
-  //         note: 'book',
-  //         money: -10.23,
-  //         isOutcome: true,
-  //         date: new Date('2020/9/12')
-  //       },
-  //       {
-  //         note: 'printer',
-  //         money: -1000.00,
-  //         isOutcome: true,
-  //         date: new Date('2020/9/12')
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     name: 'Travel',
-  //     money: -2000.00,
-  //     records: [
-  //       {
-  //         note: 'traffic',
-  //         money: -1000.00,
-  //         isOutcome: true,
-  //         date: new Date('2020/9/12')
-  //       },
-  //       {
-  //         note: 'hotel',
-  //         money: -1000.00,
-  //         isOutcome: true,
-  //         date: new Date('2020/9/12')
-  //       }
-  //     ]
-  //   }
-  // ]
 
-  // categories = [{
-  //   id: 1,
-  //   name: 'Utilities'
-  // },{
-  //   id: 2,
-  //   name: 'Travel'
-  // }]
 
   dateChange(value: Date[]){
-    // this.firstDate = this.bsRangeValue[0];
-    // this.secondDate = this.bsRangeValue[1];
     this.bsRangeValue = value;
     console.log(this.bsRangeValue[0]);
     console.log(this.bsRangeValue[1]);
@@ -148,6 +104,7 @@ export class HomeComponent implements OnInit{
 
   openModalWithAddRecord(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+    console.log(this.editRecordDate);
   }
 
   openModalWithEditRecord(template: TemplateRef<any>, recordNote: string, recordMoney: number, recordOutcome: boolean, recordDate: Date, recordCatogory: string) {
@@ -155,7 +112,7 @@ export class HomeComponent implements OnInit{
     console.log(recordNote);
     console.log(recordMoney);
     if(recordOutcome){
-      this.editRecordOutcome = 'Outcome';
+      this.editRecordOutcome = 'Expense';
     }else{
       this.editRecordOutcome = 'Income';
     }
@@ -208,6 +165,12 @@ export class HomeComponent implements OnInit{
     this.addDate = new Date();
     this.addCatogory = null;
   }
+  //adddateChange
+
+  recordDateChange(value: Date){
+    this.addDate=value
+    this.editRecordDate=value
+  }
 
   addRecord(){
     if(this.addNote == null){
@@ -238,12 +201,14 @@ export class HomeComponent implements OnInit{
       }
       this.add_record = {
               note: this.addNote,
-              outcome: Boolean(this.addOutcome=='Outcome'),
+              outcome: Boolean(this.addOutcome=='Expense'),
               money: parseFloat(money),
               date: this.addDate.getFullYear() + '/' + (this.addDate.getMonth()+1) + '/' + this.addDate.getDate(),
               id: null,
               categoryId: catId
             };
+            this.bsRangeValue[0]=this.addDate
+            this.bsRangeValue[1]=this.addDate  
       this.service.addRecord(this.add_record,this.bsRangeValue[0].getFullYear() + '/' + (this.bsRangeValue[0].getMonth()+1) + '/' + this.bsRangeValue[0].getDate(), 
                             this.bsRangeValue[1].getFullYear() + '/' + (this.bsRangeValue[1].getMonth()+1) + '/' + this.bsRangeValue[1].getDate())
                             .subscribe((data) => {
@@ -251,14 +216,7 @@ export class HomeComponent implements OnInit{
       console.log(data);
       console.log(this.categories);
     });
-      //call addRecord getAllRecords
-      // for(var i=0;i<this.catogories.length;i++){
-      //   if(this.catogories[i].name == this.addCatogory){
-      //     this.catogories[i].records.push({
-      //       note: this.addNote,
-      //       isOutcome: Boolean(this.addOutcome=='Outcome'),
-      //       money: parseFloat(this.addMoney.substring(0,this.addMoney.indexOf(".")+3)),
-      //       date: this.addDate})
+
             this.modalRef.hide();
             this.addNote = null;
             this.addMoney = null;
@@ -419,12 +377,15 @@ export class HomeComponent implements OnInit{
       }
       var edit_record = {
         note: this.editRecordNote,
-        outcome: Boolean(this.editRecordOutcome=='Outcome'),
+        outcome: Boolean(this.editRecordOutcome=='Expense'),
         money: parseFloat(money),
         date: this.editRecordDate.getFullYear() + '/' + (this.editRecordDate.getMonth()+1) + '/' + this.editRecordDate.getDate(),
         id: id,
         categoryId: cid
       };
+      this.bsRangeValue[0]=this.editRecordDate
+      this.bsRangeValue[1]=this.editRecordDate
+      
         this.service.updateRecord(id,edit_record,this.bsRangeValue[0].getFullYear() + '/' + (this.bsRangeValue[0].getMonth()+1) + '/' + this.bsRangeValue[0].getDate(), 
                               this.bsRangeValue[1].getFullYear() + '/' + (this.bsRangeValue[1].getMonth()+1) + '/' + this.bsRangeValue[1].getDate())
                               .subscribe((data) => {
